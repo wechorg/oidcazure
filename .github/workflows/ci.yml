@@ -1,12 +1,16 @@
 name: Run Azure Login with OpenID Connect and PowerShell
-on: [push]
+on: 
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 permissions:
       id-token: write
       contents: read
       
 jobs: 
-  Windows-latest:
+  oidclogin:
       runs-on: ubuntu-latest
       steps:
         - name: OIDC Login to Azure Public Cloud with AzPowershell (enableAzPSSession true)
@@ -15,7 +19,6 @@ jobs:
             client-id: ${{ secrets.AZURE_CLIENT_ID }}
             tenant-id: ${{ secrets.AZURE_TENANT_ID }}
             subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }} 
-            enable-AzPSSession: true
 
         - name: 'List resource groups'
           run: az group list
